@@ -8,12 +8,12 @@ import (
 )
 
 // Trap handles SIGINT and SIGTERM signals and returns a channel which 
-// will produce true when one of those signals are trapped.
-func Trap() chan bool {
+// will produce the os.Signal when one of those signals are trapped.
+func Trap() chan os.Signal {
 	// signal channel
 	sigs := make(chan os.Signal, 1)
 	// listen channel
-	done := make(chan bool)
+	done := make(chan os.Signal)
 
 	// trap signals
 	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
@@ -22,9 +22,7 @@ func Trap() chan bool {
 	go func() {
 		// allow signals to be continually trapped
 		for {
-			_ = <-sigs
-			// log signal type
-			done <- true
+			done <- <-sigs
 		}
 	}()
 

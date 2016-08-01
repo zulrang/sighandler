@@ -17,7 +17,10 @@ func TestTrap(t *testing.T) {
 	// test sigint trapping
 	p.Signal(syscall.SIGINT)
 	select {
-	case _ = <-done:
+	case sig := <-done:
+		if sig.String() != "interrupt" {
+			t.Fatalf("SIGINT failed: expected 'interrupt' got '%s'", &sig)
+		}
 	case <-time.After(time.Second * 2):
 		t.Fatalf("Done signal not received from SIGINT")
 	}
@@ -25,7 +28,10 @@ func TestTrap(t *testing.T) {
 	// test sigterm trapping
 	p.Signal(syscall.SIGTERM)
 	select {
-	case _ = <-done:
+	case sig := <-done:
+		if sig.String() != "terminated" {
+			t.Fatalf("SIGINT failed: expected 'terminated' got '%s'", &sig)
+		}
 	case <-time.After(time.Second * 2):
 		t.Fatalf("Done signal not received from SIGTERM")
 	}
