@@ -2,7 +2,6 @@
 package sighandler
 
 import (
-	"log"
     "os"
 	"os/signal"
 	"syscall"
@@ -23,9 +22,8 @@ func Trap() chan bool {
 	go func() {
 		// allow signals to be continually trapped
 		for {
-			sig := <-sigs
+			_ = <-sigs
 			// log signal type
-			log.Println(sig)
 			done <- true
 		}
 	}()
