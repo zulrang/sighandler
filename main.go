@@ -1,3 +1,4 @@
+// Package sighandler is a SIGTERM and SIGINT handler for Go programs
 package sighandler
 
 import (
@@ -7,7 +8,7 @@ import (
 	"syscall"
 )
 
-// Trap creates traps for SIGINT and SIGTERM and returns a channel which 
+// Trap handles SIGINT and SIGTERM signals and returns a channel which 
 // will produce true when one of those signals are trapped.
 func Trap() chan bool {
 	// signal channel

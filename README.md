@@ -1,4 +1,4 @@
-# Signal Handler
+# Go Signal Handler
 
 This is a simple library used to place a `true` value in a channel when it traps a SIGINT or SIGTERM
 
