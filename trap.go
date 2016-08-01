@@ -21,10 +21,13 @@ func Trap() chan bool {
 
 	// signal handler
 	go func() {
-		sig := <-sigs
-		// log signal type
-		log.Println(sig)
-		done <- true
+		// allow signals to be continually trapped
+		for {
+			sig := <-sigs
+			// log signal type
+			log.Println(sig)
+			done <- true
+		}
 	}()
 
 	// return channel to listen on
